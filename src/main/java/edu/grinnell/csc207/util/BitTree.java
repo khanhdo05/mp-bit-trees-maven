@@ -2,7 +2,6 @@ package edu.grinnell.csc207.util;
 
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.util.NoSuchElementException;
 
 /**
  * Trees intended to be used in storing mappings between fixed-length sequences of bits and
@@ -88,14 +87,14 @@ public class BitTree {
    *
    * @return the value at the end of the path
    *
-   * @throws NoSuchElementException if the path does not lead to a leaf or the bit string contains
-   *         other than 0 or 1
+   * @throws IndexOutOfBoundsException if the path does not lead to a leaf or the bit string
+   *         contains other than 0 or 1
    */
-  String get(BitTreeNode curr, String bits) throws NoSuchElementException {
+  String get(BitTreeNode curr, String bits) throws IndexOutOfBoundsException {
     // When the bit string is empty, we have reached the end of the path.
     if (bits.length() == 0) {
       if (!(curr instanceof BitTreeLeaf)) {
-        throw new NoSuchElementException("Error: The path does not lead to a leaf.");
+        throw new IndexOutOfBoundsException("Error: The path does not lead to a leaf.");
       } // if
       return ((BitTreeLeaf) curr).getValue();
     } // if
@@ -109,8 +108,28 @@ public class BitTree {
       return get(curr.right, bits.substring(1));
     } // if
 
-    throw new NoSuchElementException("Error: The bit string contains values other than 0 or 1.");
+    throw new IndexOutOfBoundsException("Error: The bit string contains values other than 0 or 1.");
   } // get(BitNodeTree, String)
+
+  /**
+   * Prints out the contents of the tree in CSV format.
+   *
+   * @param curr the current node
+   * @param bits the bit string
+   * @param pen the PrintWriter to which the output should be sent
+   */
+  void dump(BitTreeNode curr, String bits, PrintWriter pen) {
+    if (curr == null) {
+      return;
+    } // if
+
+    if (curr instanceof BitTreeLeaf bitTreeLeaf) {
+      pen.println(bits + "," + bitTreeLeaf.getValue());
+    } // if
+
+    dump(curr.left, bits + "0", pen);
+    dump(curr.right, bits + "1", pen);
+  } // dump(BitNodeTree, String, PrintWriter)
 
   // +---------+-----------------------------------------------------
   // | Methods |
@@ -139,20 +158,23 @@ public class BitTree {
    *
    * @return the value at the end of the path
    *
-   * @throws NoSuchElementException if the path does not lead to a leaf or the bit string contains
-   *         other than 0 or 1
+   * @throws IndexOutOfBoundsException if the path does not lead to a leaf or the bit string
+   *         contains other than 0 or 1
    */
-  public String get(String bits) throws NoSuchElementException {
+  public String get(String bits) throws IndexOutOfBoundsException {
     checkLengthBits(bits);
 
     return get(this.root, bits);
   } // get(String, String)
 
   /**
+   * prints out the contents of the tree in CSV format. For example, one row of our braille tree
+   * will be “101100,M” (without the quotation marks).
    *
+   * @param pen the PrintWriter to which the output should be sent
    */
   public void dump(PrintWriter pen) {
-    // STUB
+    dump(this.root, "", pen);
   } // dump(PrintWriter)
 
   /**
