@@ -1,13 +1,13 @@
 package edu.grinnell.csc207.util;
 
 import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
+ * A class that provides tables for converting between ASCII, braille, and Unicode.
  *
- *
- * @author Your Name Here
+ * @author Khanh Do
  * @author Samuel A. Rebelsky
  */
 public class BrailleAsciiTables {
@@ -216,7 +216,12 @@ public class BrailleAsciiTables {
     if (null == b2aTree) {
       b2aTree = new BitTree(6);
       InputStream b2aStream = new ByteArrayInputStream(b2a.getBytes());
-      b2aTree.load(b2aStream);
+      try {
+        b2aTree.load(b2aStream);
+      } catch (IOException e) {
+        // We don't care if we can't load the tree.
+      } // try/catch
+      
       try {
         b2aStream.close();
       } catch (IOException e) {

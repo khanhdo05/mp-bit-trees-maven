@@ -1,5 +1,7 @@
 package edu.grinnell.csc207.util;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 
@@ -99,6 +101,10 @@ public class BitTree {
       return ((BitTreeLeaf) curr).getValue();
     } // if
 
+    if (curr == null) {
+      throw new IndexOutOfBoundsException("Error: The path does not lead to a leaf.");
+    } // if
+
     // Follow the path through the tree.
     if (bits.charAt(0) == '0') {
       // Go to the left if it is 0.
@@ -178,10 +184,20 @@ public class BitTree {
   } // dump(PrintWriter)
 
   /**
+   * Reads a series of lines of the form bits,value and stores them in the tree.
    *
+   * @param source the input stream from which to read the data
    */
-  public void load(InputStream source) {
-    // STUB
+  public void load(InputStream source) throws IOException {
+    BufferedReader reader = new BufferedReader(new java.io.InputStreamReader(source));
+
+    for (String line = reader.readLine(); line != null; line = reader.readLine()) {
+      String[] parts = line.split(",");
+      if (parts.length != 2) {
+        throw new IOException("Error: The line does not contain exactly one comma: " + line);
+      } // if
+      this.set(parts[0], parts[1]);
+    } // for
   } // load(InputStream)
 
 } // class BitTree
