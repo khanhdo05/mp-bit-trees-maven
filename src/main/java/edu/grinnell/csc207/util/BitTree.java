@@ -32,6 +32,8 @@ public class BitTree {
 
   /**
    * Builds a tree that will store mappings from strings of n bits to strings.
+   *
+   * @param n the length of the bit strings that will be stored in the tree
    */
   public BitTree(int n) {
     this.bitLength = n;
@@ -52,12 +54,21 @@ public class BitTree {
    */
   void checkLengthBits(String bits) throws IndexOutOfBoundsException {
     if (this.bitLength != bits.length()) {
-      throw new IndexOutOfBoundsException(
-          "Error: The length of the bit string is not equal to the bit length of the tree. Should be length "
-              + this.bitLength + ", but got " + bits.length() + ".");
+      throw new IndexOutOfBoundsException("Error: The length of the bit string should be "
+          + this.bitLength + ", but got " + bits.length() + ".");
     } // if
   } // checkLengthBits(String)
 
+  /**
+   * Follows the path through the tree given by bits (adding nodes as appropriate) and adds or
+   * replaces the value at the end with value.
+   *
+   * @param curr the current node
+   * @param bits the bit string to be followed
+   * @param value the value to be stored at the end of the path
+   *
+   * @return the current nodes
+   */
   BitTreeNode set(BitTreeNode curr, String bits, String value) {
     // When the bit string is empty, we have reached the end of the path.
     if (bits.length() == 0) {
@@ -194,7 +205,7 @@ public class BitTree {
     for (String line = reader.readLine(); line != null; line = reader.readLine()) {
       String[] parts = line.split(",");
       if (parts.length != 2) {
-        throw new IOException("Error: The line does not contain exactly one comma: " + line);
+        continue;
       } // if
       this.set(parts[0], parts[1]);
     } // for
