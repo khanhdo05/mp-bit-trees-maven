@@ -47,8 +47,7 @@ public class BrailleASCII {
       } // switch
     } catch (RuntimeException e) {
       err.println("Trouble translating because " + e.getMessage());
-    }
-
+    } // try/catch
 
     pen.close();
   } // main(String[]
@@ -57,6 +56,7 @@ public class BrailleASCII {
    * Convert the given string to braille.
    *
    * @param toConvert the string to convert
+   * @param pen the PrintWriter to which the output should be sent
    *
    * @return the braille representation of the given string
    *
@@ -75,6 +75,7 @@ public class BrailleASCII {
    * Convert the given string to ASCII.
    *
    * @param toConvert the string to convert
+   * @param pen the PrintWriter to which the output should be sent
    *
    * @return the ASCII representation of the given string
    *
@@ -93,6 +94,7 @@ public class BrailleASCII {
    * Convert the given string to Unicode.
    *
    * @param toConvert the string to convert
+   * @param pen the PrintWriter to which the output should be sent
    *
    * @return the Unicode representation of the given string
    *
