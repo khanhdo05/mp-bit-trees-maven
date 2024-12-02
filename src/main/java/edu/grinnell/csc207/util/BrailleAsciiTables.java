@@ -186,7 +186,8 @@ public class BrailleAsciiTables {
     } // if
 
     try {
-      return (Character.toString(Character.toChars(Integer.parseInt(b2uTree.get(bits), 16))[0]));
+      return String.valueOf(
+          Character.toChars(Character.toChars(Integer.parseInt(b2uTree.get(bits), 16))[0]));
     } catch (IndexOutOfBoundsException e) {
       throw new RuntimeException(e.getMessage());
     } // try/catch

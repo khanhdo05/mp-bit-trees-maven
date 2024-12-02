@@ -54,7 +54,7 @@ public class BitTree {
    */
   void checkLengthBits(String bits) throws IndexOutOfBoundsException {
     if (this.bitLength != bits.length()) {
-      throw new IndexOutOfBoundsException("Error: The length of the bit string should be "
+      throw new IndexOutOfBoundsException("Invalid length of bit string, should be "
           + this.bitLength + ", but got " + bits.length() + ".");
     } // if
   } // checkLengthBits(String)
@@ -107,13 +107,13 @@ public class BitTree {
     // When the bit string is empty, we have reached the end of the path.
     if (bits.length() == 0) {
       if (!(curr instanceof BitTreeLeaf)) {
-        throw new IndexOutOfBoundsException("Error: The path does not lead to a leaf.");
+        throw new IndexOutOfBoundsException("No corresponding value");
       } // if
       return ((BitTreeLeaf) curr).getValue();
     } // if
 
     if (curr == null) {
-      throw new IndexOutOfBoundsException("Error: The path does not lead to a leaf.");
+      throw new IndexOutOfBoundsException("No corresponding value");
     } // if
 
     // Follow the path through the tree.
@@ -125,7 +125,7 @@ public class BitTree {
       return get(curr.right, bits.substring(1));
     } // if
 
-    throw new IndexOutOfBoundsException("Error: The bit string contains values other than 0 or 1.");
+    throw new IndexOutOfBoundsException("The bit string contains values other than 0 or 1.");
   } // get(BitNodeTree, String)
 
   /**
